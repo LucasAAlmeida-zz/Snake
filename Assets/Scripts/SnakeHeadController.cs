@@ -29,7 +29,7 @@ public class SnakeHeadController : MonoBehaviour
         if (other.CompareTag("Wall")) {
             //gameover
         } else if (other.CompareTag("Apple")) {
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<AppleController>().MoveApple();
         }
     }
 }
