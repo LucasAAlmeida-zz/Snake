@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 868323198775198934}
   m_Layer: 0
   m_Name: SnakeBody
-  m_TagString: Untagged
+  m_TagString: SnakeBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,4 +108,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cf2b68b28fe914b9f24019212fe2d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyPosition: 1
+  bodyPosition: 6

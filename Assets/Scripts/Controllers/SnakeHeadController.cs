@@ -10,6 +10,10 @@ public class SnakeHeadController : MonoBehaviour
 
     private void Update()
     {
+        if (LevelManager.Instance.IsGameOver()) {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.W) && direction != Vector3.back) {
             direction = Vector3.forward;
         } else if (Input.GetKeyDown(KeyCode.A) && direction != Vector3.right) {
@@ -20,8 +24,6 @@ public class SnakeHeadController : MonoBehaviour
             direction = Vector3.right;
         }
 
-        Debug.Log("head: " +transform.position);
-
         command = new MoveCommand(transform, direction, speed);
         command.Execute();
         CommandManager.Instance.AddCommand(command);
@@ -30,14 +32,25 @@ public class SnakeHeadController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall")) {
-            //gameover
+        if (other.CompareTag("SnakeBody") && other.gameObject.GetComponent<SnakeBodyController>().bodyPosition != 1) {
+            GameOver();
         } else if (other.CompareTag("Apple")) {
             other.gameObject.GetComponent<AppleController>().MoveApple();
 
             bodySize++;
             var snakeBody = Instantiate(snakeBodyPrefab);
             snakeBody.GetComponent<SnakeBodyController>().bodyPosition = bodySize;
+            //snakeBody.
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameOver();
+    }
+
+    private void GameOver()
+    {
+        LevelManager.Instance.GameOver();
     }
 }
