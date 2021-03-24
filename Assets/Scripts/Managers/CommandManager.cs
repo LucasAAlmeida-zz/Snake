@@ -16,6 +16,15 @@ public class CommandManager : MonoBehaviour
 
     public void AddCommand(ICommand command)
     {
-        _commandBuffer.Add(command);
+        _commandBuffer.Insert(0, command);
+    }
+
+    public ICommand GetCommand(int offset)
+    {
+        if (_commandBuffer.Count <= offset) {
+            return null;
+        }
+        
+        return _commandBuffer[offset];
     }
 }
