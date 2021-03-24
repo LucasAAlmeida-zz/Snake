@@ -1,13 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] GameObject applePrefab;
-    bool isGameOver = false;
-
     public static LevelManager Instance { get; private set; }
+    public int Score { get; private set; }
+    
+    [SerializeField] GameObject applePrefab;
+    [SerializeField] GameObject gameOverScreen;
+    [SerializeField] Text ScoreText;
+
+    bool isGameOver = false;
 
     private void Awake()
     {
@@ -21,16 +26,43 @@ public class LevelManager : MonoBehaviour
     {
         Instantiate(applePrefab);
         applePrefab.GetComponent<AppleController>().MoveApple();
+
+        Score = 0;
+
+        StartCoroutine(AddScoreForTime());
+
+        AddScore(0);
     }
 
     public void GameOver()
     {
         isGameOver = true;
-        Debug.Log("GameOver!");
+
+        gameOverScreen.SetActive(true);
     }
 
     public bool IsGameOver()
     {
         return isGameOver;
+    }
+
+    private IEnumerator AddScoreForTime()
+    {
+        yield return new WaitForSeconds(2);
+        while (!isGameOver) {
+            AddScore(5);
+            yield return new WaitForSeconds(2);
+        }
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        Score += scoreToAdd;
+        ScoreText.text = "Score: " + Score;
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

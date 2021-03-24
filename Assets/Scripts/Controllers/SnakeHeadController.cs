@@ -40,7 +40,8 @@ public class SnakeHeadController : MonoBehaviour
             bodySize++;
             var snakeBody = Instantiate(snakeBodyPrefab);
             snakeBody.GetComponent<SnakeBodyController>().bodyPosition = bodySize;
-            //snakeBody.
+            
+            LevelManager.Instance.AddScore(50);
         }
     }
 
