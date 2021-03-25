@@ -27,6 +27,11 @@ public class SnakeHeadController : MonoBehaviour
         command = new MoveCommand(transform, direction, speed);
         command.Execute();
         CommandManager.Instance.AddCommand(command);
+
+        var maxBufferSize = (bodySize + 1) * 300;
+        if (CommandManager.Instance.GetCommandBufferSize() > maxBufferSize) {
+            CommandManager.Instance.DeleteLastCommand();
+        }
     }
 
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,5 +27,15 @@ public class CommandManager : MonoBehaviour
         }
         
         return _commandBuffer[offset];
+    }
+
+    public int GetCommandBufferSize()
+    {
+        return _commandBuffer.Count;
+    }
+
+    public void DeleteLastCommand()
+    {
+        _commandBuffer.RemoveAt(GetCommandBufferSize()-1);
     }
 }
