@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SnakeHeadController : MonoBehaviour
 {
-    [SerializeField] float speed;
+    public float speed;
     Vector3 direction = Vector3.right;
     ICommand command;
     int bodySize = 0;
@@ -35,13 +35,16 @@ public class SnakeHeadController : MonoBehaviour
         if (other.CompareTag("SnakeBody") && other.gameObject.GetComponent<SnakeBodyController>().bodyPosition != 1) {
             GameOver();
         } else if (other.CompareTag("Apple")) {
-            other.gameObject.GetComponent<AppleController>().MoveApple();
+            var apple = other.gameObject.GetComponent<AppleController>();
+            apple.PlaySound();
+            apple.MoveApple();
 
             bodySize++;
             var snakeBody = Instantiate(snakeBodyPrefab);
             snakeBody.GetComponent<SnakeBodyController>().bodyPosition = bodySize;
             
             LevelManager.Instance.AddScore(50);
+            speed += 0.2f;
         }
     }
 

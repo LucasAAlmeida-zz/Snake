@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeBodyController : MonoBehaviour
 {
+    GameObject snakeHead;
     public int bodyPosition;
-    readonly int commandOffset = 150;
+
+    private void Start()
+    {
+        snakeHead = GameObject.Find("SnakeHead");
+    }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (LevelManager.Instance.IsGameOver()) {
             return;
         }
+
+        float currentSpeed = snakeHead.GetComponent<SnakeHeadController>().speed;
+        int commandOffset = Mathf.FloorToInt(300 / currentSpeed);
 
         MoveCommand moveCommand = (MoveCommand) CommandManager.Instance.GetCommand(bodyPosition * commandOffset);
         if (moveCommand != null) {
